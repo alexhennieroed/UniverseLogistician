@@ -13,10 +13,12 @@
 
 // Include global libraries
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <thread>
 #include <mutex>
 #include <chrono>
+#include <queue>
 
 // Definitions
 #define SERVER_PORT 54321
@@ -32,5 +34,8 @@ struct Connection // Defines a connection to another host
 };
 
 // Prototypes
+void log_info(string info, queue<string>* log_q, mutex* log_q_mutex);
+void print_info(string info);
+int strcomp_caseinsen(string str_a, string str_b);
 int send_data(string data);
 int recv_data(char* buffer);
