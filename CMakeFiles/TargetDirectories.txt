@@ -1,0 +1,8 @@
+/mnt/d/_Projects/UniverseLogistician/CMakeFiles/util.dir
+/mnt/d/_Projects/UniverseLogistician/CMakeFiles/game.dir
+/mnt/d/_Projects/UniverseLogistician/CMakeFiles/UL_Server.dir
+/mnt/d/_Projects/UniverseLogistician/CMakeFiles/UL_Client.dir
+/mnt/d/_Projects/UniverseLogistician/CMakeFiles/edit_cache.dir
+/mnt/d/_Projects/UniverseLogistician/CMakeFiles/rebuild_cache.dir
+/mnt/d/_Projects/UniverseLogistician/src/CMakeFiles/edit_cache.dir
+/mnt/d/_Projects/UniverseLogistician/src/CMakeFiles/rebuild_cache.dir

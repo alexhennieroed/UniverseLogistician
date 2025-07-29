@@ -5,7 +5,8 @@
 
 // Include OS specific global libraries
 #ifdef _WIN32 || _WIN64 // If Windows, winsock
-#include <winsock.h>
+#include <Winsock2.h>
+#include <Ws2tcpip.h>
 #else					// If Unix, unix socket
 #include <sys/socket.h>
 #include <sys/types.h>

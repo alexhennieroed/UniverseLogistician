@@ -44,11 +44,33 @@ void t_game() {
 	log_info("Starting game...", &log_q, &log_q_mutex);
 	// While the application is going, loop
 	while (l_run) {
-		this_thread::sleep_for(chrono::seconds(5));
+		// Pass game queue to game loop
+		game_loop(&game_q, &game_q_mutex);
+
+		// Log all of the data sent over by the game
+		while (!game_q.empty()) {
+			game_q_mutex.lock();
+			log_info(game_q.front(), &log_q, &log_q_mutex);
+			game_q.pop();
+			game_q_mutex.unlock();
+		}
+
 		// At the end of the loop, set local running to global
 		g_run_mutex.lock();
 		l_run = g_run;
 		g_run_mutex.unlock();
+	}
+	// Final call to game loop for cleanup
+	game_q_mutex.lock();
+	game_q.push("EXIT");
+	game_q_mutex.unlock();
+	game_loop(&game_q, &game_q_mutex);
+	// Log data sent over by the game
+	while (!game_q.empty()) {
+		game_q_mutex.lock();
+		log_info(game_q.front(), &log_q, &log_q_mutex);
+		game_q.pop();
+		game_q_mutex.unlock();
 	}
 	// Cleanup complete, close the thread
 	log_info("Game closed.", &log_q, &log_q_mutex);

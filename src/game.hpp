@@ -3,5 +3,5 @@
 * @version 0.0.1
 */
 
-// Function definitions
-int game_loop();
+// Prototypes
+int game_loop(queue<string>* game_q, mutex* game_q_mutex);

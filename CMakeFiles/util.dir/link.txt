@@ -1,0 +1,2 @@
+/usr/sbin/ar qc out/lib/libutil.a CMakeFiles/util.dir/src/util.cpp.o
+/usr/sbin/ranlib out/lib/libutil.a

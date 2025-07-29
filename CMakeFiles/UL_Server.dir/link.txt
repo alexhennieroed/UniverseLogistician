@@ -1,0 +1,1 @@
+/usr/sbin/c++ -Wl,--dependency-file=CMakeFiles/UL_Server.dir/link.d CMakeFiles/UL_Server.dir/apps/server.cpp.o -o out/bin/UL_Server  out/lib/libutil.a out/lib/libgame.a
