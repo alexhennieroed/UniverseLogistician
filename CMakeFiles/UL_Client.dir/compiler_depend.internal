@@ -268,6 +268,6 @@ out/bin/UL_Client
  /usr/lib/gcc/x86_64-redhat-linux/15/libstdc++.so
  /usr/lib64/libc_nonshared.a
  /mnt/d/_Projects/UniverseLogistician/CMakeFiles/UL_Client.dir/apps/client.cpp.o
- /mnt/d/_Projects/UniverseLogistician/libgame.a
- /mnt/d/_Projects/UniverseLogistician/libutil.a
+ /mnt/d/_Projects/UniverseLogistician/out/lib/libgame.a
+ /mnt/d/_Projects/UniverseLogistician/out/lib/libutil.a
 

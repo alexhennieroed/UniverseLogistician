@@ -4,7 +4,6 @@
 */
 
 // Include local libraries
-#include "src/util.hpp"
 #include "src/game.hpp"
 
 // Global variables
@@ -42,6 +41,18 @@ void t_network() {
 void t_game() {
 	int l_run = 1; // Local version of global
 	log_info("Starting game...", &log_q, &log_q_mutex);
+	// Pass the game_loop the initialization command
+	game_q_mutex.lock();
+	game_q.push(START_MESSAGE);
+	game_q_mutex.unlock();
+	game_loop(&game_q, &game_q_mutex);
+	// Read initialization messages and log them
+	while (!game_q.empty()) {
+		game_q_mutex.lock();
+		log_info(game_q.front(), &log_q, &log_q_mutex);
+		game_q.pop();
+		game_q_mutex.unlock();
+	}
 	// While the application is going, loop
 	while (l_run) {
 		// Pass game queue to game loop
@@ -55,6 +66,9 @@ void t_game() {
 			game_q_mutex.unlock();
 		}
 
+		// Pass instructions to the game
+
+
 		// At the end of the loop, set local running to global
 		g_run_mutex.lock();
 		l_run = g_run;
@@ -62,18 +76,16 @@ void t_game() {
 	}
 	// Final call to game loop for cleanup
 	game_q_mutex.lock();
-	game_q.push("EXIT");
+	game_q.push(EXIT_MESSAGE);
 	game_q_mutex.unlock();
-	game_loop(&game_q, &game_q_mutex);
+	string log_msg = game_loop(&game_q, &game_q_mutex);
+
 	// Log data sent over by the game
-	while (!game_q.empty()) {
-		game_q_mutex.lock();
-		log_info(game_q.front(), &log_q, &log_q_mutex);
-		game_q.pop();
-		game_q_mutex.unlock();
-	}
+	log_info(log_msg, &log_q, &log_q_mutex);
+
 	// Cleanup complete, close the thread
 	log_info("Game closed.", &log_q, &log_q_mutex);
+
 	return;
 }
 

@@ -266,11 +266,11 @@ out/bin/UL_Client: /lib64/ld-linux-x86-64.so.2 \
   /usr/lib/gcc/x86_64-redhat-linux/15/libstdc++.so \
   /usr/lib64/libc_nonshared.a \
   CMakeFiles/UL_Client.dir/apps/client.cpp.o \
-  libgame.a \
-  libutil.a
+  out/lib/libgame.a \
+  out/lib/libutil.a
 
 
-libgame.a:
+out/lib/libgame.a:
 
 CMakeFiles/UL_Client.dir/apps/client.cpp.o:
 
@@ -305,8 +305,6 @@ CMakeFiles/UL_Client.dir/apps/client.cpp.o:
 /usr/include/c++/15/bits/functional_hash.h:
 
 /usr/include/c++/15/ext/type_traits.h:
-
-libutil.a:
 
 /usr/include/c++/15/bits/requires_hosted.h:
 
@@ -445,6 +443,8 @@ libutil.a:
 src/util.hpp:
 
 src/game.hpp:
+
+out/lib/libutil.a:
 
 /usr/include/c++/15/ctime:
 

@@ -4,7 +4,6 @@
 */
 
 // Include local libraries
-#include "src/util.hpp"
 #include "src/game.hpp"
 
 // Global variables
