@@ -12,4 +12,8 @@
 #define EXIT_MESSAGE "EXIT"
 
 // Prototypes
-string game_loop(queue<string>* game_q, mutex* game_q_mutex);
+int initialize_game();
+int save_game();
+int load_game();
+int cleanup_game();
+int game_loop();

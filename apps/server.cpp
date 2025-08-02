@@ -7,21 +7,17 @@
 #include "src/game.hpp"
 
 // Global variables
-int g_run; // Is the server running?
+int g_run; // Is it running running?
 mutex g_run_mutex;
 int g_close; // Can the logger close?
 mutex g_close_mutex;
-queue<string> game_q;
-mutex game_q_mutex;
-queue<string> log_q;
-mutex log_q_mutex;
 
 /*
 * Networking thread for managing incoming and outgoing messages
 */
 void t_network() {
 	int l_run = 1; // Local version of global
-	log_info("Starting networking...", &log_q, &log_q_mutex);
+	log_info("Starting networking...");
 	// While the application is going, loop
 	while (l_run) {
 		this_thread::sleep_for(chrono::seconds(5));
@@ -31,7 +27,7 @@ void t_network() {
 		g_run_mutex.unlock();
 	}
 	// Cleanup complete, close the thread
-	log_info("Networking closed.", &log_q, &log_q_mutex);
+	log_info("Networking closed.");
 	return;
 }
 
@@ -40,7 +36,7 @@ void t_network() {
 */
 void t_game() {
 	int l_run = 1; // Local version of global
-	log_info("Starting game...", &log_q, &log_q_mutex);
+	log_info("Starting game...");
 	// While the application is going, loop
 	while (l_run) {
 		this_thread::sleep_for(chrono::seconds(5));
@@ -50,7 +46,7 @@ void t_game() {
 		g_run_mutex.unlock();
 	}
 	// Cleanup complete, close the thread
-	log_info("Game closed.", &log_q, &log_q_mutex);
+	log_info("Game closed.");
 	return;
 }
 
@@ -109,7 +105,7 @@ void t_interface() {
 		// Get the user input and check what they want to accomplish
 		getline(cin, input);
 		if (!strcomp_caseinsen(input, "exit")) { // Stop the server gracefully
-			log_info("Closing server...", &log_q, &log_q_mutex);
+			log_info("Closing server...");
 			g_run_mutex.lock();
 			g_run = 0;
 			g_run_mutex.unlock();
@@ -147,7 +143,7 @@ void t_interface() {
 * @return 0 when complete
 */
 int main() {
-	log_info("Starting Universe Logistician Server...", &log_q, &log_q_mutex);
+	log_info("Starting Universe Logistician Server...");
 	// Initialize threads
 	g_run = 1;
 	g_close = 0;
@@ -170,7 +166,7 @@ int main() {
 	iface.join();
 	network.join();
 	game.join();
-	log_info("Server cleanup complete!", &log_q, &log_q_mutex);
+	log_info("Server cleanup complete!");
 	g_close_mutex.lock();
 	g_close = 1;
 	g_close_mutex.unlock();

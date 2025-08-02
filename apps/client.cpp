@@ -6,22 +6,18 @@
 // Include local libraries
 #include "src/game.hpp"
 
-// Global variables
-int g_run; // Is the client running?
+// Global 
+int g_run; // Is it running running?
 mutex g_run_mutex;
 int g_close; // Can the logger close?
 mutex g_close_mutex;
-queue<string> game_q;
-mutex game_q_mutex;
-queue<string> log_q;
-mutex log_q_mutex;
 
 /*
 * Networking thread for managing incoming and outgoing messages
 */
 void t_network() {
 	int l_run = 1; // Local version of global
-	log_info("Starting networking...", &log_q, &log_q_mutex);
+	log_info("Starting networking...");
 	// While the application is going, loop
 	while (l_run) {
 		this_thread::sleep_for(chrono::seconds(5));
@@ -31,7 +27,7 @@ void t_network() {
 		g_run_mutex.unlock();
 	}
 	// Cleanup complete, close the thread
-	log_info("Networking closed.", &log_q, &log_q_mutex);
+	log_info("Networking closed.");
 	return;
 }
 
@@ -40,51 +36,21 @@ void t_network() {
 */
 void t_game() {
 	int l_run = 1; // Local version of global
-	log_info("Starting game...", &log_q, &log_q_mutex);
-	// Pass the game_loop the initialization command
-	game_q_mutex.lock();
-	game_q.push(START_MESSAGE);
-	game_q_mutex.unlock();
-	game_loop(&game_q, &game_q_mutex);
-	// Read initialization messages and log them
-	while (!game_q.empty()) {
-		game_q_mutex.lock();
-		log_info(game_q.front(), &log_q, &log_q_mutex);
-		game_q.pop();
-		game_q_mutex.unlock();
-	}
+	log_info("Starting game...");
+	initialize_game();
 	// While the application is going, loop
 	while (l_run) {
-		// Pass game queue to game loop
-		game_loop(&game_q, &game_q_mutex);
-
-		// Log all of the data sent over by the game
-		while (!game_q.empty()) {
-			game_q_mutex.lock();
-			log_info(game_q.front(), &log_q, &log_q_mutex);
-			game_q.pop();
-			game_q_mutex.unlock();
-		}
-
-		// Pass instructions to the game
-
-
+		game_loop();
+		this_thread::sleep_for(chrono::seconds(5));
 		// At the end of the loop, set local running to global
 		g_run_mutex.lock();
 		l_run = g_run;
 		g_run_mutex.unlock();
 	}
-	// Final call to game loop for cleanup
-	game_q_mutex.lock();
-	game_q.push(EXIT_MESSAGE);
-	game_q_mutex.unlock();
-	string log_msg = game_loop(&game_q, &game_q_mutex);
-
-	// Log data sent over by the game
-	log_info(log_msg, &log_q, &log_q_mutex);
-
+	// Close the game and cleanup
+	cleanup_game();
 	// Cleanup complete, close the thread
-	log_info("Game closed.", &log_q, &log_q_mutex);
+	log_info("Game closed.");
 
 	return;
 }
@@ -144,7 +110,7 @@ void t_interface() {
 		// Get the user input and check what they want to accomplish
 		getline(cin, input);
 		if (!strcomp_caseinsen(input, "exit")) { // Stop the client gracefully
-			log_info("Closing client...", &log_q, &log_q_mutex);
+			log_info("Closing client...");
 			g_run_mutex.lock();
 			g_run = 0;
 			g_run_mutex.unlock();
@@ -172,7 +138,7 @@ void t_interface() {
 * @return 0 when complete
 */
 int main() {
-	log_info("Starting Universe Logistician Client...", &log_q, &log_q_mutex);
+	log_info("Starting Universe Logistician Client...");
 	// Initialize threads
 	g_run = 1;
 	g_close = 0;
@@ -195,7 +161,7 @@ int main() {
 	iface.join();
 	network.join();
 	game.join();
-	log_info("Client cleanup complete!", &log_q, &log_q_mutex);
+	log_info("Client cleanup complete!");
 	g_close_mutex.lock();
 	g_close = 1;
 	g_close_mutex.unlock();

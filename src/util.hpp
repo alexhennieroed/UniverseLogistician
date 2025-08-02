@@ -34,8 +34,14 @@ struct Connection // Defines a connection to another host
 	string address;
 };
 
+// Global variables
+extern queue<string> game_q;
+extern mutex game_q_mutex;
+extern queue<string> log_q;
+extern mutex log_q_mutex;
+
 // Prototypes
-void log_info(string info, queue<string>* log_q, mutex* log_q_mutex);
+void log_info(string info);
 void print_info(string info);
 int strcomp_caseinsen(string str_a, string str_b);
 int send_data(string data);

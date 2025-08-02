@@ -7,11 +7,17 @@
 #include <ctime>
 #include "src/util.hpp"
 
+// Global variables
+queue<string> game_q = queue<string>();
+mutex game_q_mutex;
+queue<string> log_q = queue<string>();
+mutex log_q_mutex;
+
 // Miscellaneous utility functions 
 
 /*
 * Compares two strings ignoring the case
-*   Converts the strings to lowercase and uses string::compare()
+* Converts the strings to lowercase and uses string::compare()
 * @param str_a The first string to compare
 * @param str_b The second string to compare
 * @return 0 if the strings are equivalent, -1 or 1 otherwise
@@ -24,7 +30,10 @@ int strcomp_caseinsen(string str_a, string str_b) {
 	return str_a.compare(str_b);
 }
 
-void log_info(string info, queue<string>* log_q, mutex* log_q_mutex) {
+/*
+* Logs input info to the console and to the
+*/
+void log_info(string info) {
 	// Get the current time and format it for logging purposes
 	time_t rawtime;
 	struct tm* timeinfo;
@@ -36,9 +45,9 @@ void log_info(string info, queue<string>* log_q, mutex* log_q_mutex) {
 
 	// Add to log queue and print to console
 	string data = "[" + string(buffer) + "] " + info;
-	log_q_mutex->lock();
-	log_q->push(data);
-	log_q_mutex->unlock();
+	log_q_mutex.lock();
+	log_q.push(data);
+	log_q_mutex.unlock();
 	print_info(data);
 	return;
 }
@@ -53,7 +62,7 @@ void print_info(string info) {
 * Establish a connection with another host
 */
 int open_conn(string address) {
-	//TODO
+	//TODO: Start with TCP, move to UDP
 	return 0;
 }
 

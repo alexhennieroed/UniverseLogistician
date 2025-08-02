@@ -6,70 +6,118 @@
 // Includes
 #include "src/game.hpp"
 
-using namespace std;
+// Enums
+enum PlanetImprovementType {
+	REFINERY, FACTORY, WAREHOUSE, MINE, WELL,
+};
+
+enum PlanetFeatureType {
+	BUILDING_SITE, MINERAL_DEPOSIT, LIQUID_DEPOSIT,
+};
+
+// Classes
+class PlanetImprovement {
+
+};
+
+class PlanetFeature {
+
+};
+
+class CelBody {
+
+};
+
+class Planet : public CelBody {
+
+};
+
+class Moon: public CelBody {
+
+};
+
+class CelSystem {
+public:
+    // Constructor
+    CelSystem() {
+        //TODO: Constructor
+    }
+    // Destructor
+    ~CelSystem() {
+        //TODO: Destructor
+    }
+private:
+    int size;
+    vector<CelBody> system_bodies;
+};
+
+class Universe {
+public:
+    // Constructor
+    Universe() {
+        //TODO: Constructor
+        seed = rand();
+    }
+    // Destructor
+    ~Universe() {
+        //TODO: Destructor
+    }
+private:
+    int seed;  // Universe generation seed
+    int size;
+    vector<CelSystem> universe_systems;
+};
 
 /*
 * Initialize the game data
 */
-string initialize() {
+int initialize_game() {
 	//TODO: Initialize
-	return "Game initialization complete!";
+	log_info("Game initialization complete!");
+	return 0;
 }
 
 /*
 * Save the game data
 */
-string save() {
+int save_game() {
 	//TODO: Save
-	return "Game save complete!";
+	log_info("Game save complete!");
+	return 0;
 }
 
 /*
 * Load the game data
 */
-string load() {
+int load_game() {
 	//TODO: Load
-	return "Game load complete!";
+	log_info("Game load complete!");
+	return 0;
 }
 
 /*
 * Cleanup the game data 
 */
-string cleanup() {
+int cleanup_game() {
 	//TODO: Run cleanup process
-	return "Game loop cleanup complete!";
+	log_info("Game loop cleanup complete!");
+	return 0;
+}
+
+/*
+* Process the specified input
+*/
+void process_input() {
+	//TODO: Process the input
+	return;
 }
 
 /*
 * Game loop function
-* @return 0 when closed
+* @return 0 on successful close
 */
-string game_loop(queue<string>* game_q, mutex* game_q_mutex) {
-	// Is the game required to exit?
-	int do_exit = 0;
-	string out_msg;
-
-	// Parse the queue
-	while (!game_q->empty() && !do_exit) {
-		game_q_mutex->lock();
-		string message = game_q->front();
-		game_q->pop();
-		game_q_mutex->unlock();
-		// Process the message
-		if (message == START_MESSAGE) {
-			out_msg = initialize();
-		} else if (message == SAVE_MESSAGE) {
-			out_msg = save();
-		} else if (message == LOAD_MESSAGE) {
-			out_msg = load();
-		} else if (message == EXIT_MESSAGE) {
-			do_exit = 1;
-			out_msg = cleanup();
-		} else {
-			// Handle unexpected input !! TODO: Actually handle the issue
-			out_msg = "Unexpected input!";
-		}
-	}
-
-	return out_msg;
+int game_loop() {
+	// The loop will be to check input, check conflicts, make changes
+	process_input();
+	return 0;
 }
