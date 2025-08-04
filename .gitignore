@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# VS Code settings
+.vscode/
+
+# CMake items and VS Code
+CMakeFiles/
+src/CMakeFiles/
+*.cmake
+*.txt
